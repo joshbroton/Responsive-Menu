@@ -1,12 +1,12 @@
-(function($){
-	
+(function ($) {
+
 	//plugin's default options
 	var settings = {
 		combine: true,					//combine multiple menus into a single select
 		groupPageText: 'Main',			//optgroup's aren't selectable, make an option for it
 		nested: true,					//create optgroups by default
 		prependTo: 'body',				//insert at top of page by default
-		switchWidth: 480,				//width at which to switch to select, and back again
+		switchWidth: 768,				//width at which to switch to select, and back again
 		topOptionText: 'Select a page'	//default "unselected" state
 	},
 	
@@ -19,6 +19,14 @@
 	//used to store unique list items for combining lists
 	uniqueLinks = [];
 
+	var mqsupport = mqSupport();
+
+    //does browser support media queries 
+    //(true if mq support present)
+    //adapted from https://gist.github.com/1192923
+	function mqSupport() {
+	    return !!(window.webkitMatchMedia || window.mozMatchMedia || window.oMatchMedia || window.msMatchMedia || window.matchMedia);
+	}
 
 	//go to page
 	function goTo(url){
@@ -43,8 +51,12 @@
 
 
 	//function to decide if mobile or not
-	function isMobile(){
-		return ($(window).width() < settings.switchWidth);
+	function isMobile() {
+	    if (mqsupport == true) {
+	        return (!window.matchMedia('(min-width:' + settings.switchWidth + 'px)').matches);
+	    } else {
+	        return ($(window).width() < settings.switchWidth);
+        }
 	}
 	
 	
@@ -205,36 +217,36 @@
 	
 	//function to run plugin functionality
 	function runPlugin(){
-	
-		//menu doesn't exist
-		if(isMobile() && !menuExists()){
-			
-			//if user wants to combine menus, create a single <select>
-			if(settings.combine){
-				var $menu = combineLists();
-				createSelect($menu);
-			}
-			
-			//otherwise, create a select for each matched list
-			else{
-				$menus.each(function(){
-					createSelect($(this));
-				});
-			}
-		}
-		
-		//menu exists, and browser is mobile width
-		if(isMobile() && menuExists()){
-			$('.mnav').show();
-			$menus.hide();
-		}
-			
-		//otherwise, hide the mobile menu
-		if(!isMobile() && menuExists()){
-			$('.mnav').hide();
-			$menus.show();
-		}
-		
+	    var ismobile = isMobile();
+
+	    //menu doesn't exist
+	    if (ismobile && !menuExists()) {
+
+	        //if user wants to combine menus, create a single <select>
+	        if (settings.combine) {
+	            var $menu = combineLists();
+	            createSelect($menu);
+	        }
+
+	            //otherwise, create a select for each matched list
+	        else {
+	            $menus.each(function () {
+	                createSelect($(this));
+	            });
+	        }
+	    }
+
+	    //menu exists, and browser is mobile width
+	    if (ismobile && menuExists()) {
+	        $('.mnav').show();
+	        $menus.hide();
+	    }
+
+	    //otherwise, hide the mobile menu
+	    if (!ismobile && menuExists()) {
+	        $('.mnav').hide();
+	        $menus.show();
+	    }
 	}//runPlugin()
 
 	
