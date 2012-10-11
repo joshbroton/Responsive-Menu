@@ -1,5 +1,5 @@
 # jQuery Responsive Menu Plugin
-A Plugin which turns your site's navigation into a dropdown (<`select>`) when your browser is at mobile widths.
+A Plugin which turns your site's navigation into a dropdown (`<select>`) when your browser is at mobile widths.
 
 ##Changelog
 1. Added support for target="_blank" on links in the menu. This can be turned off by setting honorTargetBlank to false.
