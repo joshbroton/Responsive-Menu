@@ -1,6 +1,12 @@
 # jQuery Responsive Menu Plugin
 A Plugin which turns your site's navigation into a dropdown (<`select>`) when your browser is at mobile widths.
 
+##Changelog
+1. Added support for target="_blank" on links in the menu. This can be turned off by setting honorTargetBlank to false.
+2. Added support for window.matchMedia(). It now defaults to this and falls back to the comparing switchWidth to $(window).width() because of the differences in the way Firefox and IE10 implement .width() vs. all media queries. IE8 doesn't support window.matchMedia(), but that's OK because it measures .width() the same way as media queries.
+3. Changed the way the top level menu items are converted into links with the text from groupPageText. If that top level menu item doesn't contain a link (which it shouldn't due to touch devices), then it doesn't create the "dummy" `<option>`.
+4. Minor speed enhancements.
+
 ## Options
 The options available for the plugin are listed below.
 Their default value appears next to their names, and available values below the description.
@@ -30,6 +36,9 @@ Sets the width (in pixels) at which the site's menu(s) will change to a `<select
 Sets the very first `<option>`'s display text.
 Setting this to NULL will prevent it from displaying
 ['string'/null]
+
+### honorTargetBlank [true] **new
+Carry over the functionality of any target="_blank" that you've put on your menu links.
 
 ## Usage
 The plugin can be used like any other jQuery plugin:
